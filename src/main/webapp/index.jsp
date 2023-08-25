@@ -13,6 +13,15 @@
 	<%
 	out.print("Seu sucesso garantido");
 	%>
+	
+	<form action="receber-nome.jsp">
+	
+	<input name="nome"/>
+	<input name="idade"/>
+	
+	<input type="submit" value="enviar">
+	
+	</form>
 
 </body>
 </html>
