@@ -14,7 +14,7 @@
 	out.print("Seu sucesso garantido");
 	%>
 	
-	<form action="/ServletLogin" method="post">
+	<form action="/curso-jsp/ServletLogin" method="post">
 	
 	<input name="nome"/>
 	<input name="idade"/>
