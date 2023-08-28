@@ -1,3 +1,0 @@
-db.url=jdbc:postgresql://localhost:5432/curso-jsp?autoReconnect=true
-db.username=postgres
-db.password=@Viking569038
