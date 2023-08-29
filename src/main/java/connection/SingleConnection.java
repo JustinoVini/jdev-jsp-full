@@ -41,7 +41,6 @@ public class SingleConnection {
 
 				connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 				connection.setAutoCommit(false); /* Para não fazer alterações no banco sem comando */
-				System.out.println("Conectou com sucesso!");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
