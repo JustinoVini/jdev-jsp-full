@@ -28,10 +28,12 @@
 		
 		h3 {
 		position: absolute;
-		top: 70%;
+		top: 10%;
 		left: 33%;
 		font-size: 15px;
-		color: red;
+		color: #664d03;
+		background-color: #fff3cd;
+		border-color: #ffecb5;
 		}
 	</style>
 
