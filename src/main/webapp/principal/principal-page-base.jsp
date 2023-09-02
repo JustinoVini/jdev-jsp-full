@@ -33,6 +33,7 @@
 									<div class="page-body">
 										<div class="row">
 
+											<h1>Content pagina base</h1>
 											
 										</div>
 									</div>
