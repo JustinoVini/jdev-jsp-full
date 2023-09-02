@@ -44,7 +44,7 @@
 				<h5>Bem Vindo! Faça Login com seus dados.</h5>
 
 
-		<form action="/curso-jsp/ServletLogin" method="post" class="row g-3 needs-validation" novalidate>
+		<form action="<%= request.getContextPath() %>/ServletLogin" method="post" class="row g-3 needs-validation" novalidate>
 			
 			<input type="hidden" value="<%=request.getParameter("url")%>" name="url" /> 
 			
