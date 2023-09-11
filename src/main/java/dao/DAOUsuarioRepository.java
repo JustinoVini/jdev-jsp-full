@@ -19,18 +19,35 @@ public class DAOUsuarioRepository {
 	/* Método para gravar o usuario */
 	public ModelLogin gravarUser(ModelLogin objeto) throws Exception {
 
-		String sql = "INSERT INTO model_login(login, senha, nome, email) VALUES (?, ?, ?, ?)";
+		if (objeto.isNovo()) { /*Grava novo usuario*/
 
-		PreparedStatement statement = connection.prepareStatement(sql);
+			String sql = "INSERT INTO model_login(login, senha, nome, email) VALUES (?, ?, ?, ?)";
 
-		statement.setString(1, objeto.getLogin());
-		statement.setString(2, objeto.getSenha());
-		statement.setString(3, objeto.getNome());
-		statement.setString(4, objeto.getEmail());
+			PreparedStatement statement = connection.prepareStatement(sql);
 
-		statement.execute();
+			statement.setString(1, objeto.getLogin());
+			statement.setString(2, objeto.getSenha());
+			statement.setString(3, objeto.getNome());
+			statement.setString(4, objeto.getEmail());
 
-		connection.commit();
+			statement.execute();
+
+			connection.commit();
+
+		} else {
+			String sql = "UPDATE model_login SET login=?, senha=?, nome=?, email=? WHERE id = "+objeto.getId()+";";
+			
+			PreparedStatement prepareSql = connection.prepareStatement(sql);
+			
+			prepareSql.setString(1, objeto.getLogin());
+			prepareSql.setString(2, objeto.getSenha());
+			prepareSql.setString(3, objeto.getNome());
+			prepareSql.setString(4, objeto.getEmail());
+
+			prepareSql.executeUpdate();
+
+			connection.commit();
+		}
 
 		return this.consultaUsuario(objeto.getLogin());
 	}
@@ -60,7 +77,7 @@ public class DAOUsuarioRepository {
 		return modelLogin;
 	}
 
-	/*Verifica se já existe um login*/
+	/* Verifica se já existe um login */
 	public boolean validarLogin(String login) throws Exception {
 		String sql = "select count(1) > 0 as existe from model_login where upper(login) = upper('" + login + "')";
 
