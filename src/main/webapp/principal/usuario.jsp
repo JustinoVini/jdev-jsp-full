@@ -82,7 +82,7 @@
                                                             <button type="button" class="btn btn-primary waves-effect waves-light" onclick="limparForm();" >Novo</button>
 												            <button  class="btn btn-success waves-effect waves-light">Salvar</button>
 												            <button type="button"  class="btn btn-info waves-effect waves-light" onclick="criarDeleteComAjax();" >Excluir</button>
-												            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalUsuario">Launch demo modal</button>
+												            <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModalUsuario">Pesquisar</button>
                                                         </form> 
                                                    
                                                 </div>
@@ -119,8 +119,25 @@
       <div class="modal-body">
         
         
+        <div class="input-group mb-3">
+		  <input type="text" class="form-control" placeholder="Nome" aria-label="nome" id="nomeBusca" aria-describedby="basic-addon2">
+		  <div class="input-group-append">
+		    <button class="btn btn-success" type="button" onclick="buscarUsuario();">Buscar</button>
+		  </div>
+		</div>
         
-        
+        <table class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">ID</th>
+		      <th scope="col">Nome</th>
+		      <th scope="col">Ver</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+		    
+		  </tbody>
+		</table>
         
       </div>
       <div class="modal-footer">
@@ -132,6 +149,29 @@
 
 
 <script type="text/javascript">
+
+
+function buscarUsuario() {
+	var urlAction = document.getElementById('formUser').action; // endereço da servlet
+	var nomeBusca = document.getElementById('nomeBusca').value;
+	
+	if (nomeBusca != null && nomeBusca != '' && nomeBusca.trim() != '') { /*Validando com JS*/
+		$.ajax({
+		     
+		     method: "get",
+		     url : urlAction,
+		     data : "nomeBusca=" + nomeBusca + '&acao=buscarUserAjax',
+		     success: function (response) {
+		    	 
+		     // processado dps a msg	 
+		    	 
+		     }
+		     
+		 }).fail(function(xhr, status, errorThrown){
+		    alert('Erro ao buscar usuário por nome: ' + xhr.responseText);
+		 });
+	}
+}
 
 
 function criarDeleteComAjax() {
