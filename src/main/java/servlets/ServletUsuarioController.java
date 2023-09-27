@@ -56,15 +56,27 @@ public class ServletUsuarioController extends HttpServlet {
 				String nomeBusca = request.getParameter("nomeBusca");
 
 				List<ModelLogin> dadosJsonUser = daoUsuarioRepository.consultaUsuarioList(nomeBusca);
-				
+
 				/* converte o json para string */
 				ObjectMapper mapper = new ObjectMapper();
-				
+
 				/* var temporaria para guardar o valor do json */
 				String json = mapper.writeValueAsString(dadosJsonUser);
-				
-				/*Insere o valor na reposta*/
+
+				/* Insere o valor na reposta */
 				response.getWriter().write(json);
+				/*Não esquecer de trocar o valor da acao*/
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarEditar")) { 
+
+				String id = request.getParameter("id");
+				
+				ModelLogin modelLogin = daoUsuarioRepository.consultaUsuarioID(id);
+				
+				request.setAttribute("msg", "Usuário em edição");
+				request.setAttribute("modolLogin", modelLogin);
+				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+				
+				
 			} else {
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 			}
