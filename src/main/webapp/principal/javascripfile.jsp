@@ -8,6 +8,7 @@
     <script type="text/javascript" src="<%= request.getContextPath() %>/assets/js/popper.js/popper.min.js"></script>
     <script type="text/javascript" src="<%= request.getContextPath() %>/assets/js/bootstrap/js/bootstrap.min.js "></script>
     <script type="text/javascript" src="<%= request.getContextPath() %>/assets/pages/widget/excanvas.js "></script>
+    <script type="text/javascript" src="<%= request.getContextPath() %>/assets/pages/widget/excanvas.js "></script>
     <!-- waves js -->
     <script src="<%= request.getContextPath() %>/assets/pages/waves/js/waves.min.js"></script>
     <!-- jquery slimscroll js -->
