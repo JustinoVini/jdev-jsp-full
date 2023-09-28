@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-
-
+    pageEncoding="ISO-8859-1"%>
+    
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
+    
 <!DOCTYPE html>
 <html lang="en">
-
 
 <jsp:include page="head.jsp"></jsp:include>
 
@@ -89,7 +90,7 @@
                                                 </div>
                                                 </div>
                                                 </div>
-                                                <span>${msg}</span>
+                                                <span id="msg">${msg}</span>
                                                 
                                     </div>
                                     <!-- Page-body end -->
@@ -102,12 +103,13 @@
             </div>
         </div>
     </div>
-   
 
 <jsp:include page="javascripfile.jsp"></jsp:include>
 
+
+
 <!-- Modal -->
-<div class="modal fade" id="exampleModalUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModalUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" >
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -117,31 +119,31 @@
         </button>
       </div>
       <div class="modal-body">
-        
-        
-        <div class="input-group mb-3">
-		  <input type="text" class="form-control" placeholder="Nome" aria-label="nome" id="nomeBusca" aria-describedby="basic-addon2">
-		  <div class="input-group-append">
-		    <button class="btn btn-success" type="button" onclick="buscarUsuario();">Buscar</button>
-		  </div>
-		</div>
-        
-        <div style="height: 300px; overflow-y: auto;">
-	        <table class="table" id="tabelaresultados">
-			  <thead>
-			    <tr>
-			      <th scope="col">ID</th>
-			      <th scope="col">Nome</th>
-			      <th scope="col">Ver</th>
-			    </tr>
-			  </thead>
-			  <tbody>
-			    
-			  </tbody>
-			</table>
-        </div>
-		<span id="totalResultados"></span>
-      </div>
+
+	<div class="input-group mb-3">
+	  <input type="text" class="form-control" placeholder="Nome" aria-label="nome" id="nomeBusca" aria-describedby="basic-addon2">
+	  <div class="input-group-append">
+	    <button class="btn btn-success" type="button" onclick="buscarUsuario();">Buscar</button>
+	  </div>
+	</div>
+	
+<div style="height: 300px;overflow: scroll;" >	
+	<table class="table" id="tabelaresultados">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Ver</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+  </tbody>
+</table>
+</div>
+<span id="totalResultados"></span>
+	
+	  </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
       </div>
@@ -152,44 +154,52 @@
 
 <script type="text/javascript">
 
+
 function verEditar(id) {
-
-	var urlAction = document.getElementById('formUser').action; // endereço da servlet
-	
-	window.location.href = urlAction + '?acao=buscarEditar&id='+id;
-
+   
+    var urlAction = document.getElementById('formUser').action;
+    
+    
+    window.location.href = urlAction + '?acao=buscarEditar&id='+id;
+    
 }
 
 
 function buscarUsuario() {
-	var urlAction = document.getElementById('formUser').action; // endereço da servlet
-	var nomeBusca = document.getElementById('nomeBusca').value;
+    
+    var nomeBusca = document.getElementById('nomeBusca').value;
+    
+    if (nomeBusca != null && nomeBusca != '' && nomeBusca.trim() != ''){ /*Validando que tem que ter valor pra buscar no banco*/
 	
-	if (nomeBusca != null && nomeBusca != '' && nomeBusca.trim() != '') { /*Validando com JS*/
-		$.ajax({
-		     
-		     method: "get",
-		     url : urlAction,
-		     data : "nomeBusca=" + nomeBusca + '&acao=buscarUserAjax',
-		     success: function (response) {
-		    	 
-		     var json = JSON.parse(response);
-		     
-		     /*JQUERY*/
-			 $('#tabelaresultados > tbody > tr').remove();
-		     
-		     	for (var p = 0; p < json.length; p++) {
-		     		$('#tabelaresultados > tbody').append('<tr><td>'+json[p].id+'</td><td>'+json[p].nome+'</td><td><button onclick="verEditar('+json[p].id+')" type="button" class="btn btn-info">Ver</button></td></tr>');
-		     	}
-		     	
-		     	document.getElementById('totalResultados').textContent = 'Resultados: ' + json.length;
-		     
-		     }
-		     
-		 }).fail(function(xhr, status, errorThrown){
-		    alert('Erro ao buscar usuário por nome: ' + xhr.responseText);
-		 });
-	}
+	 var urlAction = document.getElementById('formUser').action;
+	
+	 $.ajax({
+	     
+	     method: "get",
+	     url : urlAction,
+	     data : "nomeBusca=" + nomeBusca + '&acao=buscarUserAjax',
+	     success: function (response) {
+		 
+		 var json = JSON.parse(response);
+		 
+		 
+		 $('#tabelaresultados > tbody > tr').remove();
+		 
+		  for(var p = 0; p < json.length; p++){
+		      $('#tabelaresultados > tbody').append('<tr> <td>'+json[p].id+'</td> <td> '+json[p].nome+'</td> <td><button onclick="verEditar('+json[p].id+')" type="button" class="btn btn-info">Ver</button></td></tr>');
+		  }
+		  
+		  document.getElementById('totalResultados').textContent = 'Resultados: ' + json.length;
+		 
+	     }
+	     
+	 }).fail(function(xhr, status, errorThrown){
+	    alert('Erro ao buscar usuário por nome: ' + xhr.responseText);
+	 });
+	
+	
+    }
+    
 }
 
 
@@ -221,13 +231,16 @@ function criarDeleteComAjax() {
 }
 
 
+
 function criarDelete() {
+    
+    if(confirm('Deseja realmente excluir os dados?')) {
 	
-	if (confirm('Deseja realmente excluir os dados?')) {
-		document.getElementById("formUser").method = 'get';
+	    document.getElementById("formUser").method = 'get';
 	    document.getElementById("acao").value = 'deletar';
 	    document.getElementById("formUser").submit();
-	}
+	    
+    }
     
 }
 
@@ -241,5 +254,8 @@ function limparForm() {
     }
 }
 </script>
+
+
+
 </body>
 </html>

@@ -10,20 +10,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.DAOUsuarioRepository;
 import model.ModelLogin;
 
-@WebServlet("/ServletUsuarioController")
+@WebServlet(urlPatterns = { "/ServletUsuarioController" })
 public class ServletUsuarioController extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
 
 	private DAOUsuarioRepository daoUsuarioRepository = new DAOUsuarioRepository();
 
 	public ServletUsuarioController() {
-
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -40,7 +39,6 @@ public class ServletUsuarioController extends HttpServlet {
 				daoUsuarioRepository.deletarUser(idUser);
 
 				request.setAttribute("msg", "Excluido com sucesso!");
-
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("deletarajax")) {
 
@@ -48,36 +46,36 @@ public class ServletUsuarioController extends HttpServlet {
 
 				daoUsuarioRepository.deletarUser(idUser);
 
-				request.setAttribute("msg", "Excluido com sucesso!");
-
 				response.getWriter().write("Excluido com sucesso!");
-			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUserAjax")) {
+
+			}
+
+			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarUserAjax")) {
 
 				String nomeBusca = request.getParameter("nomeBusca");
 
 				List<ModelLogin> dadosJsonUser = daoUsuarioRepository.consultaUsuarioList(nomeBusca);
 
-				/* converte o json para string */
 				ObjectMapper mapper = new ObjectMapper();
 
-				/* var temporaria para guardar o valor do json */
 				String json = mapper.writeValueAsString(dadosJsonUser);
 
-				/* Insere o valor na reposta */
 				response.getWriter().write(json);
-				/*Não esquecer de trocar o valor da acao*/
-			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarEditar")) { 
+
+			}
+
+			else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("buscarEditar")) {
 
 				String id = request.getParameter("id");
-				
+
 				ModelLogin modelLogin = daoUsuarioRepository.consultaUsuarioID(id);
-				
+
 				request.setAttribute("msg", "Usuário em edição");
 				request.setAttribute("modolLogin", modelLogin);
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
-				
-				
-			} else {
+			}
+
+			else {
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 			}
 
@@ -111,11 +109,9 @@ public class ServletUsuarioController extends HttpServlet {
 			modelLogin.setLogin(login);
 			modelLogin.setSenha(senha);
 
-			/* Verificando se o login existe */
 			if (daoUsuarioRepository.validarLogin(modelLogin.getLogin()) && modelLogin.getId() == null) {
-				msg = "Já existe usuário com o mesmo login, informe outro login!";
+				msg = "Já existe usuário com o mesmo login, informe outro login;";
 			} else {
-
 				if (modelLogin.isNovo()) {
 					msg = "Gravado com sucesso!";
 				} else {
