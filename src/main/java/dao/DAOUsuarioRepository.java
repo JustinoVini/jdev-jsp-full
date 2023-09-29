@@ -19,28 +19,27 @@ public class DAOUsuarioRepository {
 	}
 
 	/* Método para gravar o usuario */
-	public ModelLogin gravarUser(ModelLogin objeto) throws Exception {
+	public ModelLogin gravarUsuario(ModelLogin objeto) throws Exception {
 
-		if (objeto.isNovo()) { /*Grava novo usuario*/
+		if (objeto.isNovo()) {/* Grava um novo */
 
-			String sql = "INSERT INTO model_login(login, senha, nome, email) VALUES (?, ?, ?, ?)";
+			String sql = "INSERT INTO model_login(login, senha, nome, email)  VALUES (?, ?, ?, ?);";
+			PreparedStatement preparedSql = connection.prepareStatement(sql);
 
-			PreparedStatement statement = connection.prepareStatement(sql);
+			preparedSql.setString(1, objeto.getLogin());
+			preparedSql.setString(2, objeto.getSenha());
+			preparedSql.setString(3, objeto.getNome());
+			preparedSql.setString(4, objeto.getEmail());
 
-			statement.setString(1, objeto.getLogin());
-			statement.setString(2, objeto.getSenha());
-			statement.setString(3, objeto.getNome());
-			statement.setString(4, objeto.getEmail());
-
-			statement.execute();
+			preparedSql.execute();
 
 			connection.commit();
 
 		} else {
-			String sql = "UPDATE model_login SET login=?, senha=?, nome=?, email=? WHERE id = "+objeto.getId()+";";
-			
+			String sql = "UPDATE model_login SET login=?, senha=?, nome=?, email=? WHERE id =  " + objeto.getId() + ";";
+
 			PreparedStatement prepareSql = connection.prepareStatement(sql);
-			
+
 			prepareSql.setString(1, objeto.getLogin());
 			prepareSql.setString(2, objeto.getSenha());
 			prepareSql.setString(3, objeto.getNome());
@@ -49,118 +48,133 @@ public class DAOUsuarioRepository {
 			prepareSql.executeUpdate();
 
 			connection.commit();
+
 		}
 
 		return this.consultaUsuario(objeto.getLogin());
 	}
-	
-	public List<ModelLogin> consultaUsuarioList(String nome) throws Exception {
-		
-		// retorna a minha lista de resultados
+
+	public List<ModelLogin> consultaUsuarioList() throws Exception {
+
 		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
-		
-		String sql = "select * from model_login where upper(nome) like upper(?)";
+
+		String sql = "select * from model_login ";
 		PreparedStatement statement = connection.prepareStatement(sql);
-		
-		statement.setString(1, "%"+ nome +"%");
-		
+
 		ResultSet resultado = statement.executeQuery();
-		
-		while (resultado.next()) { /*Percorre as linhas de resultado SQL*/
+
+		while (resultado.next()) { /* percorrer as linhas de resultado do SQL */
+
 			ModelLogin modelLogin = new ModelLogin();
-			
+
 			modelLogin.setEmail(resultado.getString("email"));
 			modelLogin.setId(resultado.getLong("id"));
 			modelLogin.setLogin(resultado.getString("login"));
 			modelLogin.setNome(resultado.getString("nome"));
-			
+			// modelLogin.setSenha(resultado.getString("senha"));
+
 			retorno.add(modelLogin);
 		}
-		
-		return retorno; // passando o retorno para o método
+
+		return retorno;
+	}
+
+	public List<ModelLogin> consultaUsuarioList(String nome) throws Exception {
+
+		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
+
+		String sql = "select * from model_login  where upper(nome) like upper(?) ";
+		PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, "%" + nome + "%");
+
+		ResultSet resultado = statement.executeQuery();
+
+		while (resultado.next()) { /* percorrer as linhas de resultado do SQL */
+
+			ModelLogin modelLogin = new ModelLogin();
+
+			modelLogin.setEmail(resultado.getString("email"));
+			modelLogin.setId(resultado.getLong("id"));
+			modelLogin.setLogin(resultado.getString("login"));
+			modelLogin.setNome(resultado.getString("nome"));
+			// modelLogin.setSenha(resultado.getString("senha"));
+
+			retorno.add(modelLogin);
+		}
+
+		return retorno;
 	}
 
 	public ModelLogin consultaUsuario(String login) throws Exception {
+
 		ModelLogin modelLogin = new ModelLogin();
 
-		/* Passando parametro diretamente na consulta */
-		String sql = "SELECT * FROM model_login where upper(login) = upper('" + login + "')";
+		String sql = "select * from model_login where upper(login) = upper('" + login + "')";
 
-		/* Preparando o sql */
 		PreparedStatement statement = connection.prepareStatement(sql);
 
-		/* Pegando o resultado */
-		ResultSet resultado = statement.executeQuery(); // Não passa o SQL aqui
+		ResultSet resutlado = statement.executeQuery();
 
-		/* Executa até ter dados */
-		while (resultado.next()) { /* Se tem resultado */
-			modelLogin.setId(resultado.getLong("id"));
-			modelLogin.setEmail(resultado.getString("email"));
-			modelLogin.setLogin(resultado.getString("login"));
-			modelLogin.setSenha(resultado.getString("senha"));
-			modelLogin.setNome(resultado.getString("nome"));
+		while (resutlado.next()) /* Se tem resultado */ {
+
+			modelLogin.setId(resutlado.getLong("id"));
+			modelLogin.setEmail(resutlado.getString("email"));
+			modelLogin.setLogin(resutlado.getString("login"));
+			modelLogin.setSenha(resutlado.getString("senha"));
+			modelLogin.setNome(resutlado.getString("nome"));
 		}
 
-		/* Retorna o resultado */
 		return modelLogin;
+
 	}
-	
-	/*Pelo id*/
+
 	public ModelLogin consultaUsuarioID(String id) throws Exception {
+
 		ModelLogin modelLogin = new ModelLogin();
 
-		/* Passando parametro diretamente na consulta */
-		String sql = "SELECT * FROM model_login where id = ?";
+		String sql = "select * from model_login where id = ? ";
 
-		/* Preparando o sql */
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setLong(1, Long.parseLong(id));
-		
-		/* Pegando o resultado */
-		ResultSet resultado = statement.executeQuery(); // Não passa o SQL aqui
 
-		/* Executa até ter dados */
-		while (resultado.next()) { /* Se tem resultado */
-			
-			modelLogin.setId(resultado.getLong("id"));
-			modelLogin.setEmail(resultado.getString("email"));
-			modelLogin.setLogin(resultado.getString("login"));
-			modelLogin.setSenha(resultado.getString("senha"));
-			modelLogin.setNome(resultado.getString("nome"));
-			
+		ResultSet resutlado = statement.executeQuery();
+
+		while (resutlado.next()) /* Se tem resultado */ {
+
+			modelLogin.setId(resutlado.getLong("id"));
+			modelLogin.setEmail(resutlado.getString("email"));
+			modelLogin.setLogin(resutlado.getString("login"));
+			modelLogin.setSenha(resutlado.getString("senha"));
+			modelLogin.setNome(resutlado.getString("nome"));
 		}
 
-		/* Retorna o resultado */
 		return modelLogin;
+
 	}
 
-	/* Verifica se já existe um login */
 	public boolean validarLogin(String login) throws Exception {
-		String sql = "select count(1) > 0 as existe from model_login where upper(login) = upper('" + login + "')";
+		String sql = "select count(1) > 0 as existe from model_login where upper(login) = upper('" + login + "');";
 
-		/* Preparando o sql */
 		PreparedStatement statement = connection.prepareStatement(sql);
 
-		/* Pegando o resultado */
-		ResultSet resultado = statement.executeQuery(); // Não passa o SQL aqui
+		ResultSet resutlado = statement.executeQuery();
 
-		resultado.next();
-		return resultado.getBoolean("existe");
+		resutlado.next();/* Pra ele entrar nos resultados do sql */
+		return resutlado.getBoolean("existe");
 
 	}
-	
-	/*Deleta usuario*/
+
 	public void deletarUser(String idUser) throws Exception {
 		String sql = "DELETE FROM model_login WHERE id = ?;";
-		
+
 		PreparedStatement prepareSql = connection.prepareStatement(sql);
-		
+
 		prepareSql.setLong(1, Long.parseLong(idUser));
-		
+
 		prepareSql.executeUpdate();
-		
+
 		connection.commit();
-		
+
 	}
-	
+
 }
