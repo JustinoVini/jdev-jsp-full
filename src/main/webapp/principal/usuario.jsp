@@ -74,6 +74,16 @@
 															</div>
 
 															<div class="form-group form-default form-static-label">
+																<select class="form-control" aria-label="Default select example"
+																name="">
+																	<option disabled>[Selecione o Perfil]</option>
+																	<option value="ADMIN">Admin</option>
+																	<option value="SECRETARIA">Secretário</option>
+																	<option value="AUXILIAR">Auxiliar</option>
+																</select>
+															</div>
+
+															<div class="form-group form-default form-static-label">
 																<input type="text" name="login" id="login"
 																	class="form-control" required="required"
 																	autocomplete="off" value="${modolLogin.login}">
