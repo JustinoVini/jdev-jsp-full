@@ -62,7 +62,7 @@ public class ServletLogin extends HttpServlet {
 
 				if (daoLoginRepository.validarAutenticacao(modelLogin)) {/* Deu certo o login */
 
-					modelLogin = daoUsuarioRepository.consultaUsuario(login);
+					modelLogin = daoUsuarioRepository.consultaUsuarioLogado(login);
 					
 					request.getSession().setAttribute("usuario", modelLogin.getLogin());/* Coloca o user na sessao */
 					request.getSession().setAttribute("isAdmin", modelLogin.getUseradmin());

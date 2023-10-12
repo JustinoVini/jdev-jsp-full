@@ -124,6 +124,7 @@ public class DAOUsuarioRepository {
 			modelLogin.setLogin(resutlado.getString("login"));
 			modelLogin.setSenha(resutlado.getString("senha"));
 			modelLogin.setNome(resutlado.getString("nome"));
+			modelLogin.setUseradmin(resutlado.getBoolean("useradmin"));
 		}
 
 		return modelLogin;
