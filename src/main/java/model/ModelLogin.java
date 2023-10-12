@@ -11,16 +11,25 @@ public class ModelLogin implements Serializable {
 	private String email;
 	private String login;
 	private String senha;
-	
+	private boolean useradmin;
+
 	public boolean isNovo() {
-		
+
 		if (this.id == null) {
-			return true; /*Inserir um novo*/
+			return true; /* Inserir um novo */
 		} else if (this.id != null && this.id > 0) {
-			return false; /*Atualizar*/
+			return false; /* Atualizar */
 		}
-		
+
 		return id == null;
+	}
+
+	public boolean getUseradmin() {
+		return useradmin;
+	}
+
+	public void setUseradmin(boolean useradmin) {
+		this.useradmin = useradmin;
 	}
 
 	public Long getId() {
