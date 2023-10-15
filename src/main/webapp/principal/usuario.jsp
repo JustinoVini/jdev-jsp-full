@@ -47,7 +47,7 @@
                                                     <div class="card-block">
                                                         <h4 class="sub-title">Cad. Usuário</h4>
 		                                              
-          												 <form class="form-material" action="<%= request.getContextPath() %>/ServletUsuarioController" method="post" id="formUser" >
+          												 <form class="form-material" enctype="multipart/form-data" action="<%= request.getContextPath() %>/ServletUsuarioController" method="post" id="formUser" >
           												    
           												    <input type="hidden" name="acao" id="acao" value="">
           												 
@@ -55,6 +55,14 @@
                                                                 <input type="text" name="id" id="id" class="form-control"  readonly="readonly" value="${modolLogin.id}">
                                                                 <span class="form-bar"></span>
                                                                 <label class="float-label">ID:</label>
+                                                            </div>
+                                                            
+                                                            <div class="form-group form-default input-group mb-4">
+                                                            
+                                                            	<div class="input-group-prepend">
+                                                            		<img alt="Imagem User" id="fotoembase64" src="" width="70px" />
+                                                            	</div>
+	                                                            <input type="file" id="fileFoto" accept="image/*" onchange="visualizarImg('fotoembase64', 'fileFoto')" class="form-control" style="margin-top: 20px; margin-left: 5px;" >
                                                             </div>
                                                             
                                                               <div class="form-group form-default form-static-label">
@@ -116,6 +124,35 @@
                                                                 <input type="password" name="senha" id="senha" class="form-control" required="required" autocomplete="off" value="${modolLogin.senha}">
                                                                 <span class="form-bar"></span>
                                                                 <label class="float-label">Senha</label>
+                                                            </div>
+                                                            
+                                                            <div class="form-group form-default form-static-label">
+                                                             <input type="radio" name="sexo" checked="checked" value="MASCULINO"  
+                                                             
+                                                             <%
+                                                            
+                                                             modelLogin = (ModelLogin) request.getAttribute("modelLogin");
+                                                                 
+                                                             if (modelLogin != null && modelLogin.getSexo().equals("MASCULINO")) {
+																	out.print(" ");
+																	 out.print("checked=\"checked\"");
+																	out.print(" ");
+															}
+                                                             
+                                                             %>
+                                                             >Masculino</>
+                                                             
+                                                             <input type="radio" name="sexo" value="FEMININO" <%
+                                                            
+                                                             modelLogin = (ModelLogin) request.getAttribute("modelLogin");
+                                                                 
+                                                             if (modelLogin != null && modelLogin.getSexo().equals("FEMININO")) {
+																	out.print(" ");
+																	 out.print("checked=\"checked\"");
+																	out.print(" ");
+															}
+                                                             
+                                                             %> >Feminino</>
                                                             </div>
 
 															<button type="button" class="btn btn-primary waves-effect waves-light" onclick="limparForm();" >Novo</button>
@@ -213,6 +250,23 @@
 
 
 <script type="text/javascript">
+
+function visualizarImg(fotoembase64, filefoto) {
+    
+    var preview = document.getElementById(fotoembase64); // campo img do HTML
+    var fileUser = document.getElementById(filefoto).files[0];
+    var reader = new FileReader();
+
+    reader.onloadend = function () {
+        preview.src = reader.result; /* Carrega a foto na tela */
+    };
+
+    if (fileUser) {
+        reader.readAsDataURL(fileUser); /* Preview da imagem */
+    } else {
+        preview.src = '';
+    }
+}
 
 
 function verEditar(id) {
