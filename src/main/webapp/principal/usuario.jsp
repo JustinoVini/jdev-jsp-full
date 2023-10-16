@@ -58,12 +58,11 @@
                                                             </div>
                                                             
                                                             <div class="form-group form-default input-group mb-4">
-                                                            
-                                                            	<div class="input-group-prepend">
-                                                            		<img alt="Imagem User" id="fotoembase64" src="" width="70px" />
-                                                            	</div>
-	                                                            <input type="file" id="fileFoto" accept="image/*" onchange="visualizarImg('fotoembase64', 'fileFoto')" class="form-control" style="margin-top: 20px; margin-left: 5px;" >
-                                                            </div>
+																<div class="input-group-prepend">
+																	<img alt="Imagem User" id="fotoembase64" src="" width="70px" />
+																</div>
+																<input type="file" id="fileFoto" accept="image/*" onchange="visualizarImg('fotoembase64', 'fileFoto')" class="form-control" style="margin-top: 20px; margin-left: 5px;" >
+															</div>
                                                             
                                                               <div class="form-group form-default form-static-label">
                                                                 <input type="text" name="nome" id="nome" class="form-control" required="required" value="${modolLogin.nome}">

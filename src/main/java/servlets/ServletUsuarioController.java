@@ -5,20 +5,17 @@ import java.util.List;
 
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
-
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.Part;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import dao.DAOUsuarioRepository;
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import model.ModelLogin;
 
 /*Essa anotação faz com que o forms possa receber um formdata*/
@@ -65,7 +62,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 
 				String nomeBusca = request.getParameter("nomeBusca");
 
-				List<ModelLogin> dadosJsonUser = daoUsuarioRepository.consultaUsuarioList(nomeBusca, super.getUserLogado(request));
+				List<ModelLogin> dadosJsonUser = daoUsuarioRepository.consultaUsuarioList(nomeBusca,
+						super.getUserLogado(request));
 
 				ObjectMapper mapper = new ObjectMapper();
 
@@ -138,14 +136,17 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelLogin.setSenha(senha);
 			modelLogin.setPerfil(perfil);
 			modelLogin.setSexo(sexo);
-			
+
 			Part part = request.getPart("fileFoto");
-	        if (part != null) {
-	            byte[] foto = IOUtils.toByteArray(part.getInputStream()); /* Converte para byte */
-	            String imagemBase64 = new Base64().encodeBase64String(foto);
-	            System.out.println(imagemBase64);
-	        }
-			
+			if (part != null && part.getSize() > 0) {
+				// Prossiga com a manipulação da parte do arquivo
+				byte[] foto = IOUtils.toByteArray(part.getInputStream()); /* Converte para byte */
+				String imagemBase64 = "data:image/" + part.getContentType().split("\\/")[1] + ";base64,"
+						+ new Base64().encodeBase64String(foto);
+				modelLogin.setFotouser(imagemBase64); /* Seta a foto do usuário no banco */
+				modelLogin.setExtensaofotouser(part.getContentType().split("\\/")[1]); /* Pega a extensão do arquivo */
+			}
+
 			if (daoUsuarioRepository.validarLogin(modelLogin.getLogin()) && modelLogin.getId() == null) {
 				msg = "Já existe usuário com o mesmo login, informe outro login;";
 			} else {
