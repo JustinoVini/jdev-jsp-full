@@ -5,6 +5,11 @@ import java.util.List;
 
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.apache.tomcat.util.http.fileupload.FileItemFactory;
+import org.apache.tomcat.util.http.fileupload.FileUpload;
+import org.apache.tomcat.util.http.fileupload.FileUploadBase;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,8 +24,8 @@ import jakarta.servlet.http.Part;
 import model.ModelLogin;
 
 /*Essa anotação faz com que o forms possa receber um formdata*/
-@MultipartConfig
 @WebServlet(urlPatterns = { "/ServletUsuarioController" })
+@MultipartConfig
 public class ServletUsuarioController extends ServletGenericUtil {
 
 	private static final long serialVersionUID = 1L;
@@ -137,14 +142,18 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelLogin.setPerfil(perfil);
 			modelLogin.setSexo(sexo);
 
-			Part part = request.getPart("fileFoto");
-			if (part != null && part.getSize() > 0) {
-				// Prossiga com a manipulação da parte do arquivo
-				byte[] foto = IOUtils.toByteArray(part.getInputStream()); /* Converte para byte */
-				String imagemBase64 = "data:image/" + part.getContentType().split("\\/")[1] + ";base64,"
-						+ new Base64().encodeBase64String(foto);
-				modelLogin.setFotouser(imagemBase64); /* Seta a foto do usuário no banco */
-				modelLogin.setExtensaofotouser(part.getContentType().split("\\/")[1]); /* Pega a extensão do arquivo */
+			if (ServletFileUpload.isMultipartContent(request)) {
+
+				Part part = request.getPart("fileFoto"); /* Pega foto da tela */
+
+				if (part.getSize() > 0) {
+					byte[] foto = IOUtils.toByteArray(part.getInputStream()); /* Converte imagem para byte */
+					String imagemBase64 = "data:image/" + part.getContentType().split("\\/")[1] + ";base64," + new Base64().encodeBase64String(foto);
+
+					modelLogin.setFotouser(imagemBase64);
+					modelLogin.setExtensaofotouser(part.getContentType().split("\\/")[1]);
+				}
+
 			}
 
 			if (daoUsuarioRepository.validarLogin(modelLogin.getLogin()) && modelLogin.getId() == null) {

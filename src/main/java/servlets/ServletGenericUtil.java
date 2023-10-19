@@ -2,11 +2,11 @@ package servlets;
 
 import java.io.Serializable;
 
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import dao.DAOUsuarioRepository;
-import jakarta.servlet.http.HttpServlet;
 
 public class ServletGenericUtil extends HttpServlet implements Serializable {
 
