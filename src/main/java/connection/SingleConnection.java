@@ -28,7 +28,7 @@ public class SingleConnection {
 				Class.forName("org.postgresql.Driver"); /* Carrega o driver do banco */
 
 				// Especifique o caminho absoluto do arquivo database-config.txt
-				String filePath = "E:\\ws-jdev-curso\\jdev-jsp-full\\database-config.txt";
+				String filePath = "D:\\Desenvolvimento\\TUDO\\TUDO\\ws-jdev-curso\\jdev-jsp-full\\database-config.txt";
 
 				// Crie um objeto FileInputStream com o caminho absoluto
 				InputStream inputStream = new FileInputStream(filePath);

@@ -5,10 +5,6 @@ import java.util.List;
 
 import org.apache.commons.compress.utils.IOUtils;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.apache.tomcat.util.http.fileupload.FileItemFactory;
-import org.apache.tomcat.util.http.fileupload.FileUpload;
-import org.apache.tomcat.util.http.fileupload.FileUploadBase;
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,8 +20,8 @@ import jakarta.servlet.http.Part;
 import model.ModelLogin;
 
 /*Essa anotação faz com que o forms possa receber um formdata*/
-@WebServlet(urlPatterns = { "/ServletUsuarioController" })
 @MultipartConfig
+@WebServlet(urlPatterns = { "/ServletUsuarioController" })
 public class ServletUsuarioController extends ServletGenericUtil {
 
 	private static final long serialVersionUID = 1L;
@@ -121,8 +117,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			throws ServletException, IOException {
 
 		try {
-
-			String msg = "Operação realizada com sucesso!";
+			String msg = "Opera��o realizada com sucesso!";
 
 			String id = request.getParameter("id");
 			String nome = request.getParameter("nome");
@@ -131,6 +126,8 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String senha = request.getParameter("senha");
 			String perfil = request.getParameter("perfil");
 			String sexo = request.getParameter("sexo");
+			
+			System.out.println(perfil);
 
 			ModelLogin modelLogin = new ModelLogin();
 
@@ -142,14 +139,17 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelLogin.setPerfil(perfil);
 			modelLogin.setSexo(sexo);
 
-			if (ServletFileUpload.isMultipartContent(request)) {
+			if (request.getPart("fileFoto") != null) {
 
 				Part part = request.getPart("fileFoto"); /* Pega foto da tela */
 
 				if (part.getSize() > 0) {
 					byte[] foto = IOUtils.toByteArray(part.getInputStream()); /* Converte imagem para byte */
-					String imagemBase64 = "data:image/" + part.getContentType().split("\\/")[1] + ";base64," + new Base64().encodeBase64String(foto);
+					String imagemBase64 = "data:image/" + part.getContentType().split("\\/")[1] + ";base64,"
+							+ new Base64().encodeBase64String(foto);
 
+					System.out.println(imagemBase64.toString());
+					
 					modelLogin.setFotouser(imagemBase64);
 					modelLogin.setExtensaofotouser(part.getContentType().split("\\/")[1]);
 				}
@@ -157,12 +157,12 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			}
 
 			if (daoUsuarioRepository.validarLogin(modelLogin.getLogin()) && modelLogin.getId() == null) {
-				msg = "Já existe usuário com o mesmo login, informe outro login;";
+				msg = "There is already a user with the same login, please inform another login.";
 			} else {
 				if (modelLogin.isNovo()) {
-					msg = "Gravado com sucesso!";
+					msg = "User registered successfully.";
 				} else {
-					msg = "Atualizado com sucesso!";
+					msg = "User updated successfully.";
 				}
 
 				modelLogin = daoUsuarioRepository.gravarUsuario(modelLogin, super.getUserLogado(request));
@@ -172,6 +172,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			request.setAttribute("modelLogins", modelLogins);
 			request.setAttribute("msg", msg);
 			request.setAttribute("modolLogin", modelLogin);
+
 			request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 
 		} catch (Exception e) {
@@ -182,5 +183,4 @@ public class ServletUsuarioController extends ServletGenericUtil {
 		}
 
 	}
-
 }
