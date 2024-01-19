@@ -75,14 +75,14 @@
 																	<c:if
 																		test="${modolLogin.fotouser == '' || modolLogin.fotouser == null}">
 																		<img alt="Imagem User" id="fotoembase64"
-																			src="assets/images/user.png" width="70px">
+																			src="assets/images/user-bg.jpg" width="70px">
 																	</c:if>
 
 																</div>
 																<input type="file" id="fileFoto" name="fileFoto"
 																	accept="image/*"
 																	onchange="visualizarImg('fotoembase64', 'fileFoto');"
-																	class="form-control-file"
+																	class="form-control"
 																	style="margin-top: 15px; margin-left: 5px;">
 
 															</div>

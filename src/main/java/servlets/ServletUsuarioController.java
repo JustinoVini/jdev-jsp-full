@@ -96,6 +96,20 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				request.setAttribute("modelLogins", modelLogins);
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
 
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("downloadFoto")) {
+
+				String idUser = request.getParameter("id");
+
+				ModelLogin modelLogin = daoUsuarioRepository.consultaUsuarioID(idUser, super.getUserLogado(request));
+				if (modelLogin.getFotouser() != null && !modelLogin.getFotouser().isEmpty()) {
+
+					response.setHeader("Content-Disposition",
+							"attachment;filename=arquivo." + modelLogin.getExtensaofotouser());
+					response.getOutputStream()
+							.write(new Base64().decodeBase64(modelLogin.getFotouser().split("\\,")[1]));
+
+				}
+
 			}
 
 			else {
@@ -126,7 +140,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String senha = request.getParameter("senha");
 			String perfil = request.getParameter("perfil");
 			String sexo = request.getParameter("sexo");
-			
+
 			System.out.println(perfil);
 
 			ModelLogin modelLogin = new ModelLogin();
@@ -149,7 +163,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 							+ new Base64().encodeBase64String(foto);
 
 					System.out.println(imagemBase64.toString());
-					
+
 					modelLogin.setFotouser(imagemBase64);
 					modelLogin.setExtensaofotouser(part.getContentType().split("\\/")[1]);
 				}
