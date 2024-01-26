@@ -136,6 +136,8 @@ public class DAOUsuarioRepository {
 		PreparedStatement statement = connection.prepareStatement(sql);
 
 		ResultSet resultado = statement.executeQuery();
+		
+		resultado.next();
 
 		Double cadastros = resultado.getDouble("total");
 

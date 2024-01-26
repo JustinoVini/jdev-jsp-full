@@ -109,27 +109,27 @@
 																		Perfil --]</option>
 																	<option value="ADMIN"
 																		<%ModelLogin modelLogin = (ModelLogin) request.getAttribute("modelLogin");
-if (modelLogin != null && modelLogin.getPerfil() != null && modelLogin.getPerfil().equals("ADMIN")) {
-	out.print(" ");
-	out.print("selected=\"selected\"");
-	out.print(" ");
-}%>>Admin
+																			if (modelLogin != null && modelLogin.getPerfil() != null && modelLogin.getPerfil().equals("ADMIN")) {
+																				out.print(" ");
+																				out.print("selected=\"selected\"");
+																				out.print(" ");
+																			}%>>Admin
 																	</option>
 																	<option value="SECRETARIO"
 																		<%modelLogin = (ModelLogin) request.getAttribute("modelLogin");
-if (modelLogin != null && modelLogin.getPerfil() != null && modelLogin.getPerfil().equals("SECRETARIO")) {
-	out.print(" ");
-	out.print("selected=\"selected\"");
-	out.print(" ");
-}%>>Secretário
+																			if (modelLogin != null && modelLogin.getPerfil() != null && modelLogin.getPerfil().equals("SECRETARIO")) {
+																				out.print(" ");
+																				out.print("selected=\"selected\"");
+																				out.print(" ");
+																			}%>>Secretário
 																	</option>
 																	<option value="AUXILIAR"
 																		<%modelLogin = (ModelLogin) request.getAttribute("modelLogin");
-if (modelLogin != null && modelLogin.getPerfil() != null && modelLogin.getPerfil().equals("AUXILIAR")) {
-	out.print(" ");
-	out.print("selected=\"selected\"");
-	out.print(" ");
-}%>>Auxiliar
+																			if (modelLogin != null && modelLogin.getPerfil() != null && modelLogin.getPerfil().equals("AUXILIAR")) {
+																				out.print(" ");
+																				out.print("selected=\"selected\"");
+																				out.print(" ");
+																			}%>>Auxiliar
 																	</option>
 																</select> <span class="form-bar"></span> <label
 																	class="float-label">Perfil:</label>
@@ -202,20 +202,20 @@ if (modelLogin != null && modelLogin.getPerfil() != null && modelLogin.getPerfil
 																	value="MASCULINO"
 																	<%modelLogin = (ModelLogin) request.getAttribute("modolLogin");
 
-if (modelLogin != null && modelLogin.getSexo().equals("MASCULINO")) {
-	out.print(" ");
-	out.print("checked=\"checked\"");
-	out.print(" ");
-}%>>Masculino</>
+																		if (modelLogin != null && modelLogin.getSexo().equals("MASCULINO")) {
+																			out.print(" ");
+																			out.print("checked=\"checked\"");
+																			out.print(" ");
+																		}%>>Masculino</>
 
 																<input type="radio" name="sexo" value="FEMININO"
 																	<%modelLogin = (ModelLogin) request.getAttribute("modolLogin");
 
-if (modelLogin != null && modelLogin.getSexo().equals("FEMININO")) {
-	out.print(" ");
-	out.print("checked=\"checked\"");
-	out.print(" ");
-}%>>Feminino</>
+																		if (modelLogin != null && modelLogin.getSexo().equals("FEMININO")) {
+																			out.print(" ");
+																			out.print("checked=\"checked\"");
+																			out.print(" ");
+																		}%>>Feminino</>
 															</div>
 
 															<button type="button"
@@ -235,6 +235,7 @@ if (modelLogin != null && modelLogin.getSexo().equals("FEMININO")) {
 										</div>
 										<span id="msg">${msg}</span>
 
+									<div class="card">
 										<div style="height: 300px; overflow: scroll;">
 											<table class="table" id="tabelaresultadosview">
 												<thead>
@@ -256,6 +257,21 @@ if (modelLogin != null && modelLogin.getSexo().equals("FEMININO")) {
 												</tbody>
 											</table>
 										</div>
+									</div>
+										
+										<nav aria-label="Page navigation example">
+										  <ul class="pagination">
+										  
+										  	<%
+										  		int totalPagina = (int) request.getAttribute("totalPagina");
+										  	
+										  		for (int p = 0; p < totalPagina; p++) {
+										  			String url = request.getContextPath() + "/ServletUsuarioController?acao=paginar&pagina=" + (p * 5);
+										  			out.print("<li class=\"page-item\"><a class=\"page-link\" href=\""+url+"\">"+(p + 1)+"</a></li>");
+										  		}
+										  	%>
+										  </ul>
+										</nav>
 
 									</div>
 									<!-- Page-body end -->

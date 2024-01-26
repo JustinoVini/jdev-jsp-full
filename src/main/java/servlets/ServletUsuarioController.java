@@ -113,9 +113,16 @@ public class ServletUsuarioController extends ServletGenericUtil {
 
 				}
 
-			}
+			} else if (acao != null && !acao.isEmpty() && acao.equalsIgnoreCase("paginar")) {
 
-			else {
+				Integer offset = Integer.parseInt(request.getParameter("pagina"));
+
+				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioListPaginado(this.getUserLogado(request), offset);
+				request.setAttribute("modelLogins", modelLogins);
+				request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(this.getUserLogado(request)));
+				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
+
+			} else {
 				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
 				request.setAttribute("modelLogins", modelLogins);
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(this.getUserLogado(request)));
@@ -150,9 +157,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			String localidade = request.getParameter("localidade");
 			String uf = request.getParameter("uf");
 			String numero = request.getParameter("numero");
-			
+
 			ModelLogin modelLogin = new ModelLogin();
-			
+
 			modelLogin.setId(id != null && !id.isEmpty() ? Long.parseLong(id) : null);
 			modelLogin.setNome(nome);
 			modelLogin.setEmail(email);
