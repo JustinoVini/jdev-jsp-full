@@ -75,7 +75,7 @@
 																	<c:if
 																		test="${modolLogin.fotouser == '' || modolLogin.fotouser == null}">
 																		<img alt="Imagem User" id="fotoembase64"
-																			src="assets/images/user-bg.jpg" width="70px">
+																			src="assets/images/user-default.jpg" width="70px">
 																	</c:if>
 
 																</div>
