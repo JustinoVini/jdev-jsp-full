@@ -109,27 +109,27 @@
 																		Perfil --]</option>
 																	<option value="ADMIN"
 																		<%ModelLogin modelLogin = (ModelLogin) request.getAttribute("modelLogin");
-																			if (modelLogin != null && modelLogin.getPerfil() != null && modelLogin.getPerfil().equals("ADMIN")) {
-																				out.print(" ");
-																				out.print("selected=\"selected\"");
-																				out.print(" ");
-																			}%>>Admin
+if (modelLogin != null && modelLogin.getPerfil() != null && modelLogin.getPerfil().equals("ADMIN")) {
+	out.print(" ");
+	out.print("selected=\"selected\"");
+	out.print(" ");
+}%>>Admin
 																	</option>
 																	<option value="SECRETARIO"
 																		<%modelLogin = (ModelLogin) request.getAttribute("modelLogin");
-																			if (modelLogin != null && modelLogin.getPerfil() != null && modelLogin.getPerfil().equals("SECRETARIO")) {
-																				out.print(" ");
-																				out.print("selected=\"selected\"");
-																				out.print(" ");
-																			}%>>Secretário
+if (modelLogin != null && modelLogin.getPerfil() != null && modelLogin.getPerfil().equals("SECRETARIO")) {
+	out.print(" ");
+	out.print("selected=\"selected\"");
+	out.print(" ");
+}%>>Secretário
 																	</option>
 																	<option value="AUXILIAR"
 																		<%modelLogin = (ModelLogin) request.getAttribute("modelLogin");
-																			if (modelLogin != null && modelLogin.getPerfil() != null && modelLogin.getPerfil().equals("AUXILIAR")) {
-																				out.print(" ");
-																				out.print("selected=\"selected\"");
-																				out.print(" ");
-																			}%>>Auxiliar
+if (modelLogin != null && modelLogin.getPerfil() != null && modelLogin.getPerfil().equals("AUXILIAR")) {
+	out.print(" ");
+	out.print("selected=\"selected\"");
+	out.print(" ");
+}%>>Auxiliar
 																	</option>
 																</select> <span class="form-bar"></span> <label
 																	class="float-label">Perfil:</label>
@@ -202,20 +202,20 @@
 																	value="MASCULINO"
 																	<%modelLogin = (ModelLogin) request.getAttribute("modolLogin");
 
-																		if (modelLogin != null && modelLogin.getSexo().equals("MASCULINO")) {
-																			out.print(" ");
-																			out.print("checked=\"checked\"");
-																			out.print(" ");
-																		}%>>Masculino</>
+if (modelLogin != null && modelLogin.getSexo().equals("MASCULINO")) {
+	out.print(" ");
+	out.print("checked=\"checked\"");
+	out.print(" ");
+}%>>Masculino</>
 
 																<input type="radio" name="sexo" value="FEMININO"
 																	<%modelLogin = (ModelLogin) request.getAttribute("modolLogin");
 
-																		if (modelLogin != null && modelLogin.getSexo().equals("FEMININO")) {
-																			out.print(" ");
-																			out.print("checked=\"checked\"");
-																			out.print(" ");
-																		}%>>Feminino</>
+if (modelLogin != null && modelLogin.getSexo().equals("FEMININO")) {
+	out.print(" ");
+	out.print("checked=\"checked\"");
+	out.print(" ");
+}%>>Feminino</>
 															</div>
 
 															<button type="button"
@@ -235,42 +235,42 @@
 										</div>
 										<span id="msg">${msg}</span>
 
-									<div class="card">
-										<div style="height: 300px; overflow: scroll;">
-											<table class="table" id="tabelaresultadosview">
-												<thead>
-													<tr>
-														<th scope="col">ID</th>
-														<th scope="col">Nome</th>
-														<th scope="col">Ver</th>
-													</tr>
-												</thead>
-												<tbody>
-													<c:forEach items='${modelLogins}' var='ml'>
+										<div class="card">
+											<div style="height: 300px; overflow: scroll;">
+												<table class="table" id="tabelaresultadosview">
+													<thead>
 														<tr>
-															<td><c:out value="${ml.id}"></c:out></td>
-															<td><c:out value="${ml.nome}"></c:out></td>
-															<td><a class="btn btn-success"
-																href="<%= request.getContextPath() %>/ServletUsuarioController?acao=buscarEditar&id=${ml.id}">Ver</a></td>
+															<th scope="col">ID</th>
+															<th scope="col">Nome</th>
+															<th scope="col">Ver</th>
 														</tr>
-													</c:forEach>
-												</tbody>
-											</table>
+													</thead>
+													<tbody>
+														<c:forEach items='${modelLogins}' var='ml'>
+															<tr>
+																<td><c:out value="${ml.id}"></c:out></td>
+																<td><c:out value="${ml.nome}"></c:out></td>
+																<td><a class="btn btn-success"
+																	href="<%= request.getContextPath() %>/ServletUsuarioController?acao=buscarEditar&id=${ml.id}">Ver</a></td>
+															</tr>
+														</c:forEach>
+													</tbody>
+												</table>
+											</div>
 										</div>
-									</div>
-										
+
 										<nav aria-label="Page navigation example">
-										  <ul class="pagination">
-										  
-										  	<%
-										  		int totalPagina = (int) request.getAttribute("totalPagina");
-										  	
-										  		for (int p = 0; p < totalPagina; p++) {
-										  			String url = request.getContextPath() + "/ServletUsuarioController?acao=paginar&pagina=" + (p * 5);
-										  			out.print("<li class=\"page-item\"><a class=\"page-link\" href=\""+url+"\">"+(p + 1)+"</a></li>");
-										  		}
-										  	%>
-										  </ul>
+											<ul class="pagination">
+
+												<%
+												int totalPagina = (int) request.getAttribute("totalPagina");
+
+												for (int p = 0; p < totalPagina; p++) {
+													String url = request.getContextPath() + "/ServletUsuarioController?acao=paginar&pagina=" + (p * 5);
+													out.print("<li class=\"page-item\"><a class=\"page-link\" href=\"" + url + "\">" + (p + 1) + "</a></li>");
+												}
+												%>
+											</ul>
 										</nav>
 
 									</div>
@@ -327,7 +327,11 @@
 							</tbody>
 						</table>
 					</div>
+					<nav aria-label="Page navigation example">
+						<ul class="pagination" id="ulPaginacaoUserAjax">
 
+						</ul>
+					</nav>
 					<span id="totalResultados"></span>
 
 				</div>
@@ -384,6 +388,70 @@
 
 		}
 
+		function buscaUserPagAjax(url) {
+
+			var urlAction = document.getElementById('formUser').action;
+			var nomeBusca = document.getElementById('nomeBusca').value;
+
+			$
+					.ajax(
+							{
+								method : "get",
+								url : urlAction,
+								data : url,
+								success : function(response, textStatus, xhr) {
+
+									var json = JSON.parse(response);
+
+									$('#tabelaresultados > tbody > tr')
+											.remove();
+									$("#ulPaginacaoUserAjax > li").remove();
+
+									for (var p = 0; p < json.length; p++) {
+										$('#tabelaresultados > tbody')
+												.append(
+														'<tr> <td>'
+																+ json[p].id
+																+ '</td> <td> '
+																+ json[p].nome
+																+ '</td> <td><button onclick="verEditar('
+																+ json[p].id
+																+ ')" type="button" class="btn btn-info">Ver</button></td></tr>');
+									}
+
+									document.getElementById('totalResultados').textContent = 'Resultados: '
+											+ json.length;
+
+									var totalPagina = xhr
+											.getResponseHeader("totalPagina");
+
+									for (var p = 0; p < totalPagina; p++) {
+
+										var url = 'nomeBusca='
+												+ nomeBusca
+												+ '&acao=buscarUserAjaxPage&pagina='
+												+ (p * 5);
+
+										$("#ulPaginacaoUserAjax")
+												.append(
+														'<li class="page-item"><a class="page-link" href="#" onclick="buscaUserPagAjax(\''
+																+ url
+																+ '\')">'
+																+ (p + 1)
+																+ '</a></li>');
+
+									}
+
+								}
+
+							}).fail(
+							function(xhr, status, errorThrown) {
+								alert('Erro ao buscar usuário por nome: '
+										+ xhr.responseText);
+							});
+
+		}
+
 		function buscarUsuario() {
 
 			var nomeBusca = document.getElementById('nomeBusca').value;
@@ -400,12 +468,14 @@
 									url : urlAction,
 									data : "nomeBusca=" + nomeBusca
 											+ '&acao=buscarUserAjax',
-									success : function(response) {
+									success : function(response, textStatus,
+											xhr) {
 
 										var json = JSON.parse(response);
 
 										$('#tabelaresultados > tbody > tr')
 												.remove();
+										$("#ulPaginacaoUserAjax > li").remove();
 
 										for (var p = 0; p < json.length; p++) {
 											$('#tabelaresultados > tbody')
@@ -422,6 +492,26 @@
 										document
 												.getElementById('totalResultados').textContent = 'Resultados: '
 												+ json.length;
+
+										var totalPagina = xhr
+												.getResponseHeader("totalPagina");
+
+										for (var p = 0; p < totalPagina; p++) {
+
+											var url = 'nomeBusca='
+													+ nomeBusca
+													+ '&acao=buscarUserAjaxPage&pagina='
+													+ (p * 5);
+
+											$("#ulPaginacaoUserAjax")
+													.append(
+															'<li class="page-item"><a class="page-link" href="#" onclick="buscaUserPagAjax(\''
+																	+ url
+																	+ '\')">'
+																	+ (p + 1)
+																	+ '</a></li>');
+
+										}
 
 									}
 
@@ -484,8 +574,6 @@
 			}
 		}
 	</script>
-
-
 
 </body>
 </html>
