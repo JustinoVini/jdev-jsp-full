@@ -225,6 +225,11 @@ if (modelLogin != null && modelLogin.getSexo().equals("FEMININO")) {
 															<button type="button"
 																class="btn btn-info waves-effect waves-light"
 																onclick="criarDeleteComAjax();">Excluir</button>
+															<c:if test="${modolLogin.id > 0}">
+															<a
+																href="<%= request.getContextPath() %>/ServletTelefone?iduser=${modolLogin.id}"
+																class="btn btn-primary waves-effect waves-light">Telefones</a>
+																</c:if>
 															<button type="button" class="btn btn-secondary"
 																data-toggle="modal" data-target="#exampleModalUsuario">Pesquisar</button>
 														</form>
