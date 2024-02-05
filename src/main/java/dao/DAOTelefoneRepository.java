@@ -47,9 +47,10 @@ public class DAOTelefoneRepository {
 
 		List<ModelTelefone> retorno = new ArrayList<ModelTelefone>();
 
-		String sql = "select from telefone where usuario_pai_id=? ";
-
+		String sql = "select * from telefone where usuario_pai_id = ?";
 		PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+		preparedStatement.setLong(1, idUserPai);
 
 		ResultSet rs = preparedStatement.executeQuery();
 
@@ -63,6 +64,7 @@ public class DAOTelefoneRepository {
 			modelTelefone.setUsuario_pai_id(daoUsuarioRepository.consultaUsuarioID(rs.getLong("usuario_pai_id")));
 
 			retorno.add(modelTelefone);
+
 		}
 
 		return retorno;

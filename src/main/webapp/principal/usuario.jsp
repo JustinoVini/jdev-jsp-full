@@ -227,7 +227,7 @@ if (modelLogin != null && modelLogin.getSexo().equals("FEMININO")) {
 																onclick="criarDeleteComAjax();">Excluir</button>
 															<c:if test="${modolLogin.id > 0}">
 															<a
-																href="<%= request.getContextPath() %>/ServletTelefone?iduser=${modolLogin.id}"
+																href="<%= request.getContextPath() %>/ServletTelefoneController?iduser=${modolLogin.id}"
 																class="btn btn-primary waves-effect waves-light">Telefones</a>
 																</c:if>
 															<button type="button" class="btn btn-secondary"

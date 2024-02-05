@@ -101,7 +101,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				List<ModelLogin> modelLogins = daoUsuarioRepository.consultaUsuarioList(super.getUserLogado(request));
 				request.setAttribute("modelLogins", modelLogins);
 
-				request.setAttribute("msg", "Usu√°rio em edi√ß√£o");
+				request.setAttribute("msg", "Usu·rio em ediÁ„o");
 				request.setAttribute("modolLogin", modelLogin);
 				request.setAttribute("totalPagina", daoUsuarioRepository.totalPagina(this.getUserLogado(request)));
 				request.getRequestDispatcher("principal/usuario.jsp").forward(request, response);
