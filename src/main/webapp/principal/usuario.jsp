@@ -226,10 +226,10 @@ if (modelLogin != null && modelLogin.getSexo().equals("FEMININO")) {
 																class="btn btn-info waves-effect waves-light"
 																onclick="criarDeleteComAjax();">Excluir</button>
 															<c:if test="${modolLogin.id > 0}">
-															<a
-																href="<%= request.getContextPath() %>/ServletTelefoneController?iduser=${modolLogin.id}"
-																class="btn btn-primary waves-effect waves-light">Telefones</a>
-																</c:if>
+																<a
+																	href="<%= request.getContextPath() %>/ServletTelefoneController?iduser=${modolLogin.id}"
+																	class="btn btn-primary waves-effect waves-light">Telefones</a>
+															</c:if>
 															<button type="button" class="btn btn-secondary"
 																data-toggle="modal" data-target="#exampleModalUsuario">Pesquisar</button>
 														</form>
@@ -350,6 +350,14 @@ if (modelLogin != null && modelLogin.getSexo().equals("FEMININO")) {
 
 
 	<script type="text/javascript">
+		$("#numero").keypress(function(event) {
+			return /\d/.test(String.fromCharCode(event.keyCode));
+		});
+
+		$("#cep").keypress(function(event) {
+			return /\d/.test(String.fromCharCode(event.keyCode));
+		});
+
 		function pesquisaCep() {
 			var cep = $("#cep").val();
 

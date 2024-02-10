@@ -47,16 +47,17 @@
 															<div class="form-group form-default form-static-label">
 																<input type="text" name="id" id="id"
 																	class="form-control" readonly="readonly"
-																	value="${modelLogin.id}"> <span class="form-bar"></span>
-																<label class="float-label">ID Usuário:</label>
+																	value="${modelLogin.id}"> <span
+																	class="form-bar"></span> <label class="float-label">ID
+																	Usuário:</label>
 															</div>
 
 															<div class="form-group form-default form-static-label">
 																<input type="text" name="nome" id="nome"
 																	class="form-control" readonly="readonly"
-																	required="required" value="${modelLogin.nome}"> <span
-																	class="form-bar"></span> <label class="float-label">Nome
-																	Usuário:</label>
+																	required="required" value="${modelLogin.nome}">
+																<span class="form-bar"></span> <label
+																	class="float-label">Nome Usuário:</label>
 															</div>
 
 															<div class="form-group form-default form-static-label">
@@ -107,6 +108,12 @@
 	</div>
 
 	<jsp:include page="javascripfile.jsp"></jsp:include>
+
+	<script type="text/javascript">
+		$("#numero").keypress(function(event) {
+			return /\d/.test(String.fromCharCode(event.keyCode));
+		});
+	</script>
 </body>
 
 </html>
