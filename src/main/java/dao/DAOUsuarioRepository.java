@@ -22,7 +22,7 @@ public class DAOUsuarioRepository {
 
 		if (objeto.isNovo()) {/* Grava um novo */
 
-			String sql = "INSERT INTO model_login(login, senha, nome, email, usuario_id, perfil, sexo, cep, logradouro, bairro, localidade, uf, numero, datanascimento)  VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, ?,?,?,?,?);";
+			String sql = "INSERT INTO model_login(login, senha, nome, email, usuario_id, perfil, sexo, cep, logradouro, bairro, localidade, uf, numero, datanascimento, rendamensal)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 			PreparedStatement preparedSql = connection.prepareStatement(sql);
 
 			preparedSql.setString(1, objeto.getLogin());
@@ -40,6 +40,7 @@ public class DAOUsuarioRepository {
 			preparedSql.setString(12, objeto.getUf());
 			preparedSql.setString(13, objeto.getNumero());
 			preparedSql.setDate(14, objeto.getDataNascimento());
+			preparedSql.setDouble(15, objeto.getRendamensal());
 
 			preparedSql.execute();
 
@@ -60,7 +61,7 @@ public class DAOUsuarioRepository {
 			}
 
 		} else {
-			String sql = "UPDATE model_login SET login=?, senha=?, nome=?, email=?, perfil=?, sexo=?, cep=?, logradouro=?, bairro =?, localidade=?, uf=?, numero =?, datanascimento=? WHERE id =  "
+			String sql = "UPDATE model_login SET login=?, senha=?, nome=?, email=?, perfil=?, sexo=?, cep=?, logradouro=?, bairro =?, localidade=?, uf=?, numero =?, datanascimento=?, rendamensal=? WHERE id =  "
 					+ objeto.getId() + ";";
 
 			PreparedStatement prepareSql = connection.prepareStatement(sql);
@@ -79,6 +80,7 @@ public class DAOUsuarioRepository {
 			prepareSql.setString(11, objeto.getUf());
 			prepareSql.setString(12, objeto.getNumero());
 			prepareSql.setDate(13, objeto.getDataNascimento());
+			prepareSql.setDouble(14, objeto.getRendamensal());
 
 			prepareSql.executeUpdate();
 
@@ -182,11 +184,11 @@ public class DAOUsuarioRepository {
 
 		return retorno;
 	}
-	
+
 	public int consultaUsuarioListTotalPaginacao(String nome, Long userLogado) throws Exception {
 
 		String sql = "select count(1) as total from model_login  where upper(nome) like upper(?) and useradmin is false and usuario_id = ? ";
-		
+
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, "%" + nome + "%");
 		statement.setLong(2, userLogado);
@@ -238,34 +240,34 @@ public class DAOUsuarioRepository {
 
 		return retorno;
 	}
-	
-public List<ModelLogin> consultaUsuarioListOffSet(String nome, Long userLogado, int offset) throws Exception {
-		
+
+	public List<ModelLogin> consultaUsuarioListOffSet(String nome, Long userLogado, int offset) throws Exception {
+
 		List<ModelLogin> retorno = new ArrayList<ModelLogin>();
-		
-		String sql = "select * from model_login  where upper(nome) like upper(?) and useradmin is false and usuario_id = ? offset "+offset+" limit 5";
+
+		String sql = "select * from model_login  where upper(nome) like upper(?) and useradmin is false and usuario_id = ? offset "
+				+ offset + " limit 5";
 		PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, "%" + nome + "%");
 		statement.setLong(2, userLogado);
-		
+
 		ResultSet resultado = statement.executeQuery();
-		
-		while (resultado.next()) { /*percorrer as linhas de resultado do SQL*/
-			
+
+		while (resultado.next()) { /* percorrer as linhas de resultado do SQL */
+
 			ModelLogin modelLogin = new ModelLogin();
-			
+
 			modelLogin.setEmail(resultado.getString("email"));
 			modelLogin.setId(resultado.getLong("id"));
 			modelLogin.setLogin(resultado.getString("login"));
 			modelLogin.setNome(resultado.getString("nome"));
-			//modelLogin.setSenha(resultado.getString("senha"));
+			// modelLogin.setSenha(resultado.getString("senha"));
 			modelLogin.setPerfil(resultado.getString("perfil"));
 			modelLogin.setSexo(resultado.getString("sexo"));
-			
+
 			retorno.add(modelLogin);
 		}
-		
-		
+
 		return retorno;
 	}
 
@@ -297,6 +299,8 @@ public List<ModelLogin> consultaUsuarioListOffSet(String nome, Long userLogado, 
 			modelLogin.setLocalidade(resutlado.getString("localidade"));
 			modelLogin.setUf(resutlado.getString("uf"));
 			modelLogin.setNumero(resutlado.getString("numero"));
+			modelLogin.setDataNascimento(resutlado.getDate("datanascimento"));
+			modelLogin.setRendamensal(resutlado.getDouble("rendamensal"));
 		}
 
 		return modelLogin;
@@ -330,6 +334,8 @@ public List<ModelLogin> consultaUsuarioListOffSet(String nome, Long userLogado, 
 			modelLogin.setLocalidade(resutlado.getString("localidade"));
 			modelLogin.setUf(resutlado.getString("uf"));
 			modelLogin.setNumero(resutlado.getString("numero"));
+			modelLogin.setDataNascimento(resutlado.getDate("datanascimento"));
+			modelLogin.setRendamensal(resutlado.getDouble("rendamensal"));
 		}
 
 		return modelLogin;
@@ -363,6 +369,8 @@ public List<ModelLogin> consultaUsuarioListOffSet(String nome, Long userLogado, 
 			modelLogin.setLocalidade(resutlado.getString("localidade"));
 			modelLogin.setUf(resutlado.getString("uf"));
 			modelLogin.setNumero(resutlado.getString("numero"));
+			modelLogin.setDataNascimento(resutlado.getDate("datanascimento"));
+			modelLogin.setRendamensal(resutlado.getDouble("rendamensal"));
 		}
 
 		return modelLogin;
@@ -398,12 +406,14 @@ public List<ModelLogin> consultaUsuarioListOffSet(String nome, Long userLogado, 
 			modelLogin.setLocalidade(resutlado.getString("localidade"));
 			modelLogin.setUf(resutlado.getString("uf"));
 			modelLogin.setNumero(resutlado.getString("numero"));
+			modelLogin.setDataNascimento(resutlado.getDate("datanascimento"));
+			modelLogin.setRendamensal(resutlado.getDouble("rendamensal"));
 		}
 
 		return modelLogin;
 
 	}
-	
+
 	public ModelLogin consultaUsuarioID(Long id) throws Exception {
 
 		ModelLogin modelLogin = new ModelLogin();
@@ -432,12 +442,14 @@ public List<ModelLogin> consultaUsuarioListOffSet(String nome, Long userLogado, 
 			modelLogin.setLocalidade(resutlado.getString("localidade"));
 			modelLogin.setUf(resutlado.getString("uf"));
 			modelLogin.setNumero(resutlado.getString("numero"));
+			modelLogin.setDataNascimento(resutlado.getDate("datanascimento"));
+			modelLogin.setRendamensal(resutlado.getDouble("rendamensal"));
 		}
 
 		return modelLogin;
 
 	}
-	
+
 	public boolean validarLogin(String login) throws Exception {
 		String sql = "select count(1) > 0 as existe from model_login where upper(login) = upper('" + login + "');";
 

@@ -24,6 +24,7 @@ public class ModelLogin implements Serializable {
 	private String uf;
 	private String numero;
 	private Date dataNascimento;
+	private Double rendamensal;
 
 	public boolean isNovo() {
 
@@ -34,6 +35,14 @@ public class ModelLogin implements Serializable {
 		}
 
 		return id == null;
+	}
+	
+	public void setRendamensal(Double rendamensal) {
+		this.rendamensal = rendamensal;
+	}
+	
+	public Double getRendamensal() {
+		return rendamensal;
 	}
 	
 	public void setDataNascimento(Date dataNascimento) {
