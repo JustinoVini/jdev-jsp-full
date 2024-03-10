@@ -365,7 +365,28 @@ if (modelLogin != null && modelLogin.getSexo().equals("FEMININO")) {
 
 	<script type="text/javascript">
 	
-	$("#rendamensal").maskMoney({showSymbol:true, symbol:"R$", decimal:",", thousands:"."});
+	$("#rendamensal").maskMoney({showSymbol:true, symbol:"R$ ", decimal:",", thousands:"."});
+	
+	const formatter = new Intl.NumberFormat('pt-BR', {
+		currency: 'BRL',
+		minimumFractionDigits: 2
+	});
+	
+	$("#rendamensal").val(formatter.format($("#rendamensal").val()));
+	
+	$("#rendamensal").focus();
+	
+	var dataNascimento = $("#dataNascimento").val();
+	
+	var dateFormat = new Date(dataNascimento);
+	
+	var dataNascimento = $("#dataNascimento").val();
+	if (dataNascimento) {
+    	var dateFormat = new Date(dataNascimento);
+    	$("#dataNascimento").val(dateFormat.toLocaleDateString('pt-BR', {timeZone: 'UTC'}));
+	}
+	
+	$("#nome").focus();
 	
 	$( function() {
 		  

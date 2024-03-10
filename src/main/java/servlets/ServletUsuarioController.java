@@ -195,8 +195,15 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelLogin.setBairro(bairro);
 			modelLogin.setLocalidade(localidade);
 			modelLogin.setUf(uf);
-			modelLogin.setNumero(numero);
-			modelLogin.setDataNascimento(new Date(new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento).getTime()));
+			modelLogin.setNumero(numero);	
+			
+			// modelLogin.setDataNascimento(Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento))));
+			
+			SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String formattedDate = outputDateFormat.format(inputDateFormat.parse(dataNascimento));
+			modelLogin.setDataNascimento(Date.valueOf(formattedDate));
+			
 			modelLogin.setRendamensal(Double.valueOf(rendamensal));
 
 			if (request.getPart("fileFoto") != null) {
