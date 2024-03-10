@@ -51,22 +51,29 @@
 														<form class="form-material"
 															action="<%=request.getContextPath()%>/ServletUsuarioController"
 															method="get" id="formUser">
-															
-															<input type="hidden" name="acao" value="imprimirRelatorioUser" />
+
+															<input type="hidden" name="acao"
+																value="imprimirRelatorioUser" />
 
 															<div class="form-row align-items-center">
 																<div class="col-auto">
-																	<label class="sr-only" for="inlineFormInput">Data Inicial</label> 
-																	<input value="${dataInicial}" type="text" class="form-control mb-2" id="dataInicial" name="dataInicial" placeholder="Data Inicial">
+																	<label class="sr-only" for="inlineFormInput">Data
+																		Inicial</label> <input value="${dataInicial}" type="text"
+																		class="form-control mb-2" id="dataInicial"
+																		name="dataInicial" placeholder="Data Inicial">
 																</div>
 																<div class="col-auto">
-																	<label class="sr-only" for="dataFinal">Data Final</label>
+																	<label class="sr-only" for="dataFinal">Data
+																		Final</label>
 																	<div class="input-group mb-2">
-																		<input value="${dataFinal}" type="text" class="form-control" id="dataFinal" name="dataFinal" placeholder="Data Final">
+																		<input value="${dataFinal}" type="text"
+																			class="form-control" id="dataFinal" name="dataFinal"
+																			placeholder="Data Final">
 																	</div>
 																</div>
 																<div class="col-auto">
-																	<button type="submit" class="btn btn-primary mb-2">Imprimir Relatório</button>
+																	<button type="submit" class="btn btn-primary mb-2">Imprimir
+																		Relatório</button>
 																</div>
 															</div>
 
@@ -86,6 +93,12 @@
 																			<tr>
 																				<td><c:out value="${ml.id}"></c:out></td>
 																				<td><c:out value="${ml.nome}"></c:out></td>
+																				<td>
+																					<c:forEach items="${ml.telefones}" var="fone">
+																						<td><c:out value="${fone.numero}"></c:out></td>
+																					</c:forEach>
+																				</td>
+																			</tr>
 																		</c:forEach>
 																	</tbody>
 																</table>
@@ -110,36 +123,55 @@
 
 
 	<jsp:include page="javascripfile.jsp"></jsp:include>
-	
+
 	<script type="text/javascript">
-	
-	$( function() {
-		  
-		  $("#dataInicial").datepicker({
-			    dateFormat: 'dd/mm/yy',
-			    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-			    dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
-			    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
-			    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-			    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-			    nextText: 'Próximo',
-			    prevText: 'Anterior'
-			});
-	} );
-	
-	$( function() {
-		  
-		  $("#dataFinal").datepicker({
-			    dateFormat: 'dd/mm/yy',
-			    dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
-			    dayNamesMin: ['D','S','T','Q','Q','S','S','D'],
-			    dayNamesShort: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
-			    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-			    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
-			    nextText: 'Próximo',
-			    prevText: 'Anterior'
-			});
-	} );
+		$(function() {
+
+			$("#dataInicial")
+					.datepicker(
+							{
+								dateFormat : 'dd/mm/yy',
+								dayNames : [ 'Domingo', 'Segunda', 'Terça',
+										'Quarta', 'Quinta', 'Sexta', 'Sábado' ],
+								dayNamesMin : [ 'D', 'S', 'T', 'Q', 'Q', 'S',
+										'S', 'D' ],
+								dayNamesShort : [ 'Dom', 'Seg', 'Ter', 'Qua',
+										'Qui', 'Sex', 'Sáb', 'Dom' ],
+								monthNames : [ 'Janeiro', 'Fevereiro', 'Março',
+										'Abril', 'Maio', 'Junho', 'Julho',
+										'Agosto', 'Setembro', 'Outubro',
+										'Novembro', 'Dezembro' ],
+								monthNamesShort : [ 'Jan', 'Fev', 'Mar', 'Abr',
+										'Mai', 'Jun', 'Jul', 'Ago', 'Set',
+										'Out', 'Nov', 'Dez' ],
+								nextText : 'Próximo',
+								prevText : 'Anterior'
+							});
+		});
+
+		$(function() {
+
+			$("#dataFinal")
+					.datepicker(
+							{
+								dateFormat : 'dd/mm/yy',
+								dayNames : [ 'Domingo', 'Segunda', 'Terça',
+										'Quarta', 'Quinta', 'Sexta', 'Sábado' ],
+								dayNamesMin : [ 'D', 'S', 'T', 'Q', 'Q', 'S',
+										'S', 'D' ],
+								dayNamesShort : [ 'Dom', 'Seg', 'Ter', 'Qua',
+										'Qui', 'Sex', 'Sáb', 'Dom' ],
+								monthNames : [ 'Janeiro', 'Fevereiro', 'Março',
+										'Abril', 'Maio', 'Junho', 'Julho',
+										'Agosto', 'Setembro', 'Outubro',
+										'Novembro', 'Dezembro' ],
+								monthNamesShort : [ 'Jan', 'Fev', 'Mar', 'Abr',
+										'Mai', 'Jun', 'Jul', 'Ago', 'Set',
+										'Out', 'Nov', 'Dez' ],
+								nextText : 'Próximo',
+								prevText : 'Anterior'
+							});
+		});
 	</script>
 </body>
 

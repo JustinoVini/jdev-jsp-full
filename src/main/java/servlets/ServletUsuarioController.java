@@ -148,6 +148,9 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				
 				if (dataInicial == null || dataInicial.isEmpty() && dataFinal == null || dataFinal.isEmpty()) {
 					request.setAttribute("listaUser", daoUsuarioRepository.consultaUsuarioListRel(super.getUserLogado(request)));
+				} else {
+					request.setAttribute("listaUser", daoUsuarioRepository
+							.consultaUsuarioListRelPorData(super.getUserLogado(request), dataInicial, dataFinal));
 				}
 				
 				request.setAttribute("dataInicial", dataInicial);
@@ -210,12 +213,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 			modelLogin.setUf(uf);
 			modelLogin.setNumero(numero);	
 			
-			// modelLogin.setDataNascimento(Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento))));
-			
-			SimpleDateFormat inputDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			SimpleDateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			String formattedDate = outputDateFormat.format(inputDateFormat.parse(dataNascimento));
-			modelLogin.setDataNascimento(Date.valueOf(formattedDate));
+			modelLogin.setDataNascimento(Date.valueOf(new SimpleDateFormat("yyyy-mm-dd").format(new SimpleDateFormat("dd/mm/yyyy").parse(dataNascimento))));
 			
 			modelLogin.setRendamensal(Double.valueOf(rendamensal));
 
