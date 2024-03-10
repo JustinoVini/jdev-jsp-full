@@ -2,6 +2,10 @@
 	pageEncoding="ISO-8859-1"%>
 
 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+<%@ page import="model.ModelLogin"%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -67,6 +71,26 @@
 															</div>
 
 														</form>
+
+														<div class="card">
+															<div style="height: 300px; overflow: scroll;">
+																<table class="table" id="tabelaresultadosview">
+																	<thead>
+																		<tr>
+																			<th scope="col">ID</th>
+																			<th scope="col">Nome</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<c:forEach items='${listaUser}' var='ml'>
+																			<tr>
+																				<td><c:out value="${ml.id}"></c:out></td>
+																				<td><c:out value="${ml.nome}"></c:out></td>
+																		</c:forEach>
+																	</tbody>
+																</table>
+															</div>
+														</div>
 													</div>
 												</div>
 											</div>
