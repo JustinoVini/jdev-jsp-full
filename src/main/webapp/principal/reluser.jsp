@@ -76,6 +76,8 @@
 																		Relatório</button>
 																	<button type="button" onclick="imprimirPdf();" class="btn btn-primary mb-2">Imprimir
 																		PDF</button>
+																	<button type="button" onclick="imprimirExcel();" class="btn btn-primary mb-2">Imprimir
+																		Excel</button>
 																</div>
 															</div>
 
@@ -135,6 +137,14 @@
 		
 		function imprimirPdf() {
 			document.getElementById("acaoRelatorioImprimirTipo").value = 'imprimirRelatorioPDF';
+			
+			$("#formUser").submit();
+			
+			return false
+		}
+		
+		function imprimirExcel() {
+			document.getElementById("acaoRelatorioImprimirTipo").value = 'imprimirRelatorioExcel';
 			
 			$("#formUser").submit();
 			
