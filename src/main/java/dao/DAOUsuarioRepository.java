@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import connection.SingleConnection;
+import dto.BeanDtoGraficoSalarioUser;
 import model.ModelLogin;
 import model.ModelTelefone;
 
@@ -18,6 +19,33 @@ public class DAOUsuarioRepository {
 	
 	public DAOUsuarioRepository() {
 		connection = SingleConnection.getConnection();
+	}
+	
+	public BeanDtoGraficoSalarioUser montarGraficoMediaSalario (Long userLogado) throws Exception {
+		String sql = " select avg(rendamensal) as media_salarial, perfil from model_login where usuario_id = ? group by perfil "; 
+		PreparedStatement preparedStatement = connection.prepareStatement(sql);
+		
+		preparedStatement.setLong(1, userLogado);
+		
+		ResultSet rs = preparedStatement.executeQuery();
+		
+		List<String> perfis = new ArrayList<String>();
+		List<Double> salarios = new ArrayList<Double>();
+		
+		BeanDtoGraficoSalarioUser beanDtoGraficoSalarioUser = new BeanDtoGraficoSalarioUser();
+		
+		while (rs.next()) {
+			Double media_salarial = rs.getDouble("media_salarial");
+			String perfil = rs.getString("perfil");
+			
+			perfis.add(perfil);
+			salarios.add(media_salarial);
+		}
+		
+		beanDtoGraficoSalarioUser.setPerfis(perfis);
+		beanDtoGraficoSalarioUser.setSalarios(salarios);
+		
+		return beanDtoGraficoSalarioUser;
 	}
 
 	public ModelLogin gravarUsuario(ModelLogin objeto, Long userLogado) throws Exception {
