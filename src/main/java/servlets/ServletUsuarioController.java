@@ -198,6 +198,7 @@ public class ServletUsuarioController extends ServletGenericUtil {
 				String dataInicial = request.getParameter("dataInicial");
 				String dataFinal = request.getParameter("dataFinal");
 				
+				/*Teste*/
 				if (dataInicial == null || dataInicial.isEmpty() && dataFinal == null || dataFinal.isEmpty()) {
 					
 					BeanDtoGraficoSalarioUser beanDtoGraficoSalarioUser = 
